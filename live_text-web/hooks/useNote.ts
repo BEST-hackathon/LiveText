@@ -18,20 +18,19 @@ export const useNote = (key: string) => {
     const noteNode = notesSet.get(key)
 
     useEffect(() => {
-        noteNode.on((data: NoteType) => { 
-            console.log("inside useEffect useNote", {data})
+        noteNode.on((data: NoteType) => {
             if (isFirst.current) {
                 isFirst.current = false
                 setIsLoading(Boolean(data))
             }
-            setNote(data)
+            // data has same reference for same reason, so copying for react to update
+            setNote({ ...data })
         })
 
         return () => noteNode.off()
     }, [])
 
     const updateNote = useCallback((text: string) => {
-        console.log("calling updatex")
         noteNode.put({ formattedText: text } as NoteType)
     }, [])
 

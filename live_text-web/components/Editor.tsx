@@ -11,13 +11,7 @@ export const Editor: React.FC<EditorProps> = ({ initialDoc, onChange }) => {
     // Special callback for codemirror
     const handleChange = useCallback<
         NonNullable<UseCodeMirrorProps['onChange']>
-    >(
-        ({ doc }) => {
-            onChange(doc.toString())
-            console.log("Calling update inside editor")
-        },
-        [onChange]
-    )
+    >(({ doc }) => onChange(doc.toString()), [onChange])
 
     const [refContainer] = useCodeMirror<HTMLDivElement>({
         initialDoc,

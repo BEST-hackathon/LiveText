@@ -1,18 +1,19 @@
-import styles from '../../styles/Editor.module.scss'
 import type { NextPage } from 'next'
+import { useRouter } from 'next/router'
 import { Editor } from '../../components/Editor'
 import { Preview } from '../../components/Preview'
 import { useNote } from '../../hooks/useNote'
-import { useRouter } from 'next/router'
+import styles from '../../styles/Editor.module.scss'
 
-const EditorContainer = ({noteId}) => {
-    const { note, updateNote } = useNote(noteId as string)
-    console.log({note})
+const EditorContainer = ({ noteId }: { noteId: string }) => {
+    const { note, updateNote } = useNote(noteId)
 
-    return (<main className={styles.main}>
-        <Editor onChange={updateNote} initialDoc={note.formattedText} />
-        <Preview doc={note.formattedText} />
-    </main>)
+    return (
+        <main className={styles.main}>
+            <Editor onChange={updateNote} initialDoc={note.formattedText} />
+            <Preview doc={note.formattedText} />
+        </main>
+    )
 }
 
 const EditorPage: NextPage = () => {
@@ -21,7 +22,7 @@ const EditorPage: NextPage = () => {
 
     if (!noteId && typeof noteId !== 'string') return null
 
-    return <EditorContainer noteId={noteId}/>
+    return <EditorContainer noteId={noteId as string} />
 }
 
 export default EditorPage
