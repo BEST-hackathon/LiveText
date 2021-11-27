@@ -39,3 +39,4 @@ yarn-error.log*
 # Omit DB relay files
 /db/*
 /db.*
+!/db/.gitkeep
