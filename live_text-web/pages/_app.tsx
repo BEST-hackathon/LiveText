@@ -1,8 +1,14 @@
-import '../styles/globals.css'
+import Gun from 'gun'
 import type { AppProps } from 'next/app'
+import { useEffect } from 'react'
+import '../styles/globals.css'
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+    useEffect(() => {
+        const gun = Gun('http://localhost:3400/gun')
+        window.gun = gun //To have access to gun object in browser console
+    }, [])
+    return <Component {...pageProps} />
 }
 
 export default MyApp
