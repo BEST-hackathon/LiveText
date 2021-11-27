@@ -1,28 +1,28 @@
-import { useCallback, useEffect } from 'react'
+import { useCallback } from 'react'
 import { useCodeMirror, UseCodeMirrorProps } from '../hooks/useCodeMirror'
 import styles from '../styles/Editor.module.scss'
 
-interface Props {
+type EditorProps = {
     initialDoc: string
     onChange: (doc: string) => void
 }
 
-export const Editor: React.FC<Props> = ({ initialDoc, onChange }) => {
+export const Editor: React.FC<EditorProps> = ({ initialDoc, onChange }) => {
     // Special callback for codemirror
     const handleChange = useCallback<
         NonNullable<UseCodeMirrorProps['onChange']>
-    >(({ doc }) => onChange(doc.toString()), [onChange])
+    >(
+        ({ doc }) => {
+            onChange(doc.toString())
+            console.log("Calling update inside editor")
+        },
+        [onChange]
+    )
 
-    const [refContainer, editorView] = useCodeMirror<HTMLDivElement>({
+    const [refContainer] = useCodeMirror<HTMLDivElement>({
         initialDoc,
         onChange: handleChange,
     })
 
-    useEffect(() => {
-        if (editorView) {
-            // TODO: create a note
-        }
-    }, [editorView])
-
-    return <div className={styles.editorWrapper} ref={refContainer}></div>
+    return <div className={styles.editorWrapper} ref={refContainer} />
 }

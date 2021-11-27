@@ -15,22 +15,24 @@ export const useNote = (key: string) => {
     const [note, setNote] = useState<NoteType>({ formattedText: '' })
     const [isLoading, setIsLoading] = useState(true)
     const isFirst = useRef(true)
+    const noteNode = notesSet.get(key)
 
     useEffect(() => {
-        const noteNode = notesSet.get(key)
-
-        noteNode.on((data: NoteType) => {
+        noteNode.on((data: NoteType) => { 
+            console.log("inside useEffect useNote", {data})
             if (isFirst.current) {
                 isFirst.current = false
                 setIsLoading(Boolean(data))
             }
             setNote(data)
         })
+
         return () => noteNode.off()
     }, [])
 
     const updateNote = useCallback((text: string) => {
-        gun.get(key).put({ formattedText: text } as NoteType)
+        console.log("calling updatex")
+        noteNode.put({ formattedText: text } as NoteType)
     }, [])
 
     return {
