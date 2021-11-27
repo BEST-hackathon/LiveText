@@ -16,6 +16,12 @@ export type UseCodeMirrorProps = {
     onChange?: (state: EditorState) => void
 }
 
+export const customTheme = EditorView.theme({
+    '&': {
+        height: '100%',
+    },
+})
+
 export const useCodeMirror = <T extends Element>({
     onChange,
     initialDoc,
@@ -29,23 +35,23 @@ export const useCodeMirror = <T extends Element>({
         const startState = EditorState.create({
             doc: initialDoc,
             extensions: [
-              keymap.of([...defaultKeymap, ...historyKeymap]),
-              lineNumbers(),
-              highlightActiveLineGutter(),
-              history(),
-              indentOnInput(),
-              bracketMatching(),
-              defaultHighlightStyle.fallback,
-              highlightActiveLine(),
-              markdown({
-                base: markdownLanguage,
-                codeLanguages: languages,
-                addKeymap: true
-              }),
-              oneDark,
-              // transparentTheme,
-              // syntaxHighlighting,
-              EditorView.lineWrapping,
+                keymap.of([...defaultKeymap, ...historyKeymap]),
+                lineNumbers(),
+                highlightActiveLineGutter(),
+                history(),
+                indentOnInput(),
+                bracketMatching(),
+                defaultHighlightStyle.fallback,
+                highlightActiveLine(),
+                markdown({
+                    base: markdownLanguage,
+                    codeLanguages: languages,
+                    addKeymap: true,
+                }),
+                oneDark,
+                customTheme,
+                // syntaxHighlighting,
+                EditorView.lineWrapping,
                 EditorView.updateListener.of((update) => {
                     if (update.changes) {
                         onChange && onChange(update.state)
