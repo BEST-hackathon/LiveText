@@ -1,7 +1,7 @@
 import Gun from 'gun'
 import type { AppProps } from 'next/app'
 import { useEffect } from 'react'
-import '../styles/globals.css'
+import '../styles/globals.scss'
 
 function MyApp({ Component, pageProps }: AppProps) {
     useEffect(() => {

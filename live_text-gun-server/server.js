@@ -5,4 +5,4 @@ app.use(Gun.serve);
 
 const server = app.listen(3400);
 
-Gun({  web: server,  file: "db" });
+Gun({ web: server,  file: "db" });
