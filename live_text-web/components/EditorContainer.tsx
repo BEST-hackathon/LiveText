@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { Rnd } from 'react-rnd'
 import styles from '../styles/Editor.module.scss'
 import { Editor } from './Editor'
-import { Preview } from './Preview'
+import { PresentationPreview } from './PresentationPreview'
+import { TextPreview } from './TextPreview'
 
 const EditorContainer = ({ noteId }: { noteId: string }) => {
     const [note, setNote] = useState('')
@@ -31,7 +32,7 @@ const EditorContainer = ({ noteId }: { noteId: string }) => {
                 <Editor onChange={setNote} noteId={noteId} />
             </Rnd>
 
-            <Preview note={note} />
+            <TextPreview note={note} />
         </main>
     )
 }

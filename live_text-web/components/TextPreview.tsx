@@ -20,7 +20,7 @@ const schema = {
     },
 }
 
-export const Preview: React.FC<PreviewProps> = ({ note }) => {
+export const TextPreview: React.FC<PreviewProps> = ({ note }) => {
     const md = unified()
         .use(remarkParse)
         .use(remarkGfm)
