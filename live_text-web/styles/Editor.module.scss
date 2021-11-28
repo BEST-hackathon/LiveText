@@ -1,4 +1,5 @@
 .main {
+    margin-top: 2rem;
     position: relative;
     min-height: 100vh;
     max-width: 100vw;
@@ -14,4 +15,18 @@
 
 .resizableEditor {
     position: relative !important;
+}
+
+.header {
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    background-color: rgb(50, 50, 63);
+    color: white;
+    border-bottom: 3px solid rgb(22, 22, 22);
+    font-size: 1.5rem;
+    width: 100%;
+    padding: 0.4rem;
+    text-align: center;
 }

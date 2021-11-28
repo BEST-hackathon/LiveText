@@ -1,4 +1,3 @@
-import { Language } from '@codemirror/language'
 import React, { useEffect, useState } from 'react'
 import { getLanguage } from '../utils/getLanguage'
 import { runmode } from '../utils/runmode'
