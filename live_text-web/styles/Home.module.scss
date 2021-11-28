@@ -1,0 +1,74 @@
+@import 'variables';
+@import 'mixins';
+
+.main {
+    min-height: 100vh;
+    padding: 1rem;
+}
+
+.wrapper {
+    display: flex;
+    flex: 1;
+    height: 100vh;
+    flex-direction: column;
+}
+
+.page {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    flex-direction: column-reverse;
+
+    @include respond-above(md) {
+        flex-direction: row;
+    }
+}
+
+.title {
+    font-size: 4rem;
+}
+
+.button {
+    cursor: pointer;
+    transition: 200ms;
+    color: map-get($colors, white);
+    background-color: map-get($colors, brand);
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1.5rem;
+    padding: 1rem;
+
+    &:hover {
+        box-shadow: 10px 10px 8px 2px map-get($colors, grey);
+        transform: translateY(-5px);
+    }
+
+    &:active {
+        box-shadow: none;
+        transform: translate(10px, 10px);
+    }
+}
+
+.landing {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    div {
+        flex: 0 0 50%;
+    }
+}
+
+.try {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    margin-bottom: 4rem;
+}
+
+.logo {
+    font-weight: 400;
+    font-size: 4rem;
+    font-style: italic;
+}

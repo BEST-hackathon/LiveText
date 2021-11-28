@@ -1,0 +1,15 @@
+.feature {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    &:nth-child(2n) {
+        flex-direction: row-reverse;
+    }
+
+    div:nth-child(2) {
+        h2 {
+            font-size: 1.5rem;
+        }
+    }
+}
