@@ -33,7 +33,7 @@ export const useCodeMirror = <T extends Element>({
         const ytext = ydoc.getText('note')
 
         provider.awareness.setLocalStateField('user', {
-            name: 'Anonymous ' + Math.floor(Math.random() * 100),
+            name: `Anonym ${Math.floor(Math.random() * 100)}`,
             color: userColor.color,
             colorLight: userColor.light,
         })
@@ -51,7 +51,6 @@ export const useCodeMirror = <T extends Element>({
                 defaultHighlightStyle.fallback,
                 oneDark,
                 highlightActiveLine(),
-                EditorView.lineWrapping,
                 markdown({
                     base: markdownLanguage,
                     codeLanguages: languages,
@@ -59,7 +58,9 @@ export const useCodeMirror = <T extends Element>({
                 }),
                 EditorView.theme({
                     '&': {
+                        minHeight: '100vh',
                         height: '100%',
+                        paddingTop: '.75rem',
                     },
                 }),
                 EditorView.updateListener.of(
