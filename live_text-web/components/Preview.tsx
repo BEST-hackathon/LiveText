@@ -1,15 +1,15 @@
 import 'github-markdown-css/github-markdown.css'
-import styles from '../styles/Preview.module.scss'
-import { unified } from 'unified'
 import { defaultSchema } from 'hast-util-sanitize'
-import { RemarkCode } from './RemarkCode'
 import React from 'react'
-import remarkParse from 'remark-parse'
 import remarkGfm from 'remark-gfm'
+import remarkParse from 'remark-parse'
 import remarkReact from 'remark-react'
+import { unified } from 'unified'
+import styles from '../styles/Preview.module.scss'
+import { RemarkCode } from './RemarkCode'
 
 type PreviewProps = {
-    doc: string
+    note: string
 }
 
 const schema = {
@@ -20,7 +20,7 @@ const schema = {
     },
 }
 
-export const Preview: React.FC<PreviewProps> = ({ doc }) => {
+export const Preview: React.FC<PreviewProps> = ({ note }) => {
     const md = unified()
         .use(remarkParse)
         .use(remarkGfm)
@@ -31,7 +31,7 @@ export const Preview: React.FC<PreviewProps> = ({ doc }) => {
                 code: RemarkCode,
             },
         })
-        .processSync(doc).result
+        .processSync(note).result
 
     return <div className={styles.preview}>{md}</div>
 }

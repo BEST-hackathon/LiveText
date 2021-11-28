@@ -1,13 +1,12 @@
-import type { NextPage } from 'next';
-import { useRouter } from 'next/router';
-import { addNote } from '../hooks/useNote';
+import type { NextPage } from 'next'
+import { useRouter } from 'next/router'
+import { v4 } from 'uuid'
 
 const Home: NextPage = () => {
     const router = useRouter()
 
     const onNoteCreate = async () => {
-        const noteId = await addNote()
-        router.push(`/editor/${noteId}`)
+        router.push(`/editor/${v4()}`)
     }
 
     return <button onClick={onNoteCreate}>Create new Note</button>

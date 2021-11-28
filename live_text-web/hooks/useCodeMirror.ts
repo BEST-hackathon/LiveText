@@ -1,30 +1,26 @@
-import { useEffect, useState, useRef } from 'react'
-import { EditorState } from '@codemirror/state'
-import { EditorView, keymap, highlightActiveLine } from '@codemirror/view'
-import { defaultKeymap } from '@codemirror/commands'
-import { history, historyKeymap } from '@codemirror/history'
-import { indentOnInput } from '@codemirror/language'
-import { bracketMatching } from '@codemirror/matchbrackets'
-import { lineNumbers, highlightActiveLineGutter } from '@codemirror/gutter'
+import { basicSetup, EditorState, EditorView } from '@codemirror/basic-setup'
+import { highlightActiveLineGutter, lineNumbers } from '@codemirror/gutter'
 import { defaultHighlightStyle } from '@codemirror/highlight'
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown'
+import { indentOnInput } from '@codemirror/language'
 import { languages } from '@codemirror/language-data'
+import { bracketMatching } from '@codemirror/matchbrackets'
 import { oneDark } from '@codemirror/theme-one-dark'
+import { highlightActiveLine, keymap } from '@codemirror/view'
+import { useEffect, useRef, useState } from 'react'
+import { yCollab, yUndoManagerKeymap } from 'y-codemirror.next'
+import { WebrtcProvider } from 'y-webrtc'
+import * as Y from 'yjs'
+import { userColor } from '../utils/userColor'
 
 export type UseCodeMirrorProps = {
-    initialDoc: string
+    noteId: string
     onChange?: (state: EditorState) => void
 }
 
-export const customTheme = EditorView.theme({
-    '&': {
-        height: '100%',
-    },
-})
-
 export const useCodeMirror = <T extends Element>({
     onChange,
-    initialDoc,
+    noteId,
 }: UseCodeMirrorProps): [React.MutableRefObject<T | null>, EditorView?] => {
     const refContainer = useRef<T>(null)
     const [editorView, setEditorView] = useState<EditorView>()
@@ -32,40 +28,58 @@ export const useCodeMirror = <T extends Element>({
     useEffect(() => {
         if (!refContainer.current) return
 
-        const startState = EditorState.create({
-            doc: initialDoc,
+        const ydoc = new Y.Doc()
+        const provider = new WebrtcProvider(noteId, ydoc)
+        const ytext = ydoc.getText('note')
+
+        provider.awareness.setLocalStateField('user', {
+            name: 'Anonymous ' + Math.floor(Math.random() * 100),
+            color: userColor.color,
+            colorLight: userColor.light,
+        })
+
+        const state = EditorState.create({
+            doc: ytext.toString(),
             extensions: [
-                keymap.of([...defaultKeymap, ...historyKeymap]),
+                keymap.of([...yUndoManagerKeymap]),
+                basicSetup,
+                yCollab(ytext, provider.awareness),
                 lineNumbers(),
                 highlightActiveLineGutter(),
-                history(),
                 indentOnInput(),
                 bracketMatching(),
                 defaultHighlightStyle.fallback,
+                oneDark,
                 highlightActiveLine(),
+                EditorView.lineWrapping,
                 markdown({
                     base: markdownLanguage,
                     codeLanguages: languages,
                     addKeymap: true,
                 }),
-                oneDark,
-                customTheme,
-                // syntaxHighlighting,
-                EditorView.lineWrapping,
-                EditorView.updateListener.of((update) => {
-                    if (update.changes) {
-                        onChange && onChange(update.state)
-                    }
+                EditorView.theme({
+                    '&': {
+                        height: '100%',
+                    },
                 }),
+                EditorView.updateListener.of(
+                    (update) => update.changes && onChange?.(update.state)
+                ),
             ],
         })
 
         const view = new EditorView({
-            state: startState,
+            state: state,
             parent: refContainer.current,
         })
 
         setEditorView(view)
+
+        return () => {
+            ydoc.destroy()
+            view.destroy()
+            provider.destroy()
+        }
     }, [refContainer])
 
     return [refContainer, editorView]
