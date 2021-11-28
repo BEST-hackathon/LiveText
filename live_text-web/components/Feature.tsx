@@ -1,6 +1,6 @@
-import styles from '../styles/Feature.module.scss'
-import React from 'react'
 import Image from 'next/image'
+import React from 'react'
+import styles from '../styles/Feature.module.scss'
 
 export type FeatureProps = {
     feature: {
@@ -17,7 +17,7 @@ export const Feature: React.FC<FeatureProps> = ({ feature }) => {
                 <Image src={feature.image} width={400} height={400} />
             </div>
             <div>
-                <h2>{feature.title}</h2>
+                <h1>{feature.title}</h1>
                 <span>{feature.description}</span>
             </div>
         </div>

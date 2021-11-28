@@ -8,15 +8,14 @@
 
 .wrapper {
     display: flex;
-    flex: 1;
-    height: 100vh;
     flex-direction: column;
 }
 
-.page {
+.header {
     display: flex;
     flex-grow: 1;
     align-items: center;
+    justify-content: space-evenly;
     flex-direction: column-reverse;
 
     @include respond-above(md) {
@@ -25,7 +24,10 @@
 }
 
 .title {
-    font-size: 4rem;
+    font-size: 3rem;
+    @include respond-above(sm) {
+        font-size: 4rem;
+    }
 }
 
 .button {
@@ -34,7 +36,8 @@
     color: map-get($colors, white);
     background-color: map-get($colors, brand);
     border: none;
-    border-radius: 0.5rem;
+    border-radius: 0.8rem;
+    font-weight: bold;
     font-size: 1.5rem;
     padding: 1rem;
 
@@ -65,10 +68,4 @@
     text-align: center;
     justify-content: center;
     margin-bottom: 4rem;
-}
-
-.logo {
-    font-weight: 400;
-    font-size: 4rem;
-    font-style: italic;
 }

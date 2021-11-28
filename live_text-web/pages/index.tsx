@@ -1,53 +1,59 @@
 import type { NextPage } from 'next'
+import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { v4 } from 'uuid'
 import { Feature, FeatureProps } from '../components/Feature'
 import styles from '../styles/Home.module.scss'
 
-const Home: NextPage = () => {
+const CallToAction = () => {
     const router = useRouter()
 
     const onNoteCreate = async () => {
         router.push(`/editor/${v4()}`)
     }
 
+    return (
+        <button className={styles.button} onClick={onNoteCreate}>
+            Take a Note
+        </button>
+    )
+}
+
+const Home: NextPage = () => {
     const features: FeatureProps['feature'][] = [
         {
-            title: 'Live preview',
-            description: 'Lorem ipsum dolor sit amet',
+            title: 'Live markdown preview',
+            description: 'Take advantage of the impressive markup language.',
             image: '/preview.svg',
+        },
+        {
+            title: 'Collaborate, share, present',
+            description:
+                'Notes are versatile. From personal notes to creating neat presentations together with your team!',
+            image: '/collaboration.svg',
         },
         {
             title: 'Offline support',
-            description: 'Lorem ipsum dolor sit amet',
+            description:
+                "Lost connection? We'll cover you. Text will be saved immediately after the connection is restored",
             image: '/offline.svg',
-        },
-        {
-            title: 'Collaborate, collaborate, collaborate!',
-            description: 'Lorem ipsum dolor sit amet',
-            image: '/preview.svg',
         },
     ]
 
-    // collaboration
-    // offline
-    // live preview
     return (
         <main className={styles.main}>
+            <Head>
+                <title>LiveText</title>
+            </Head>
+
             <div className={styles.wrapper}>
-                <section className={styles.page}>
+                <section className={styles.header}>
                     <div>
-                        <span className={styles.logo}>LiveText</span>
-                        <h1 className={styles.title}>
-                            Lorem ipsum dolor sit amet
-                        </h1>
-                        <button
-                            className={styles.button}
-                            onClick={onNoteCreate}
-                        >
-                            I love purple color
-                        </button>
+                        <h2 className={styles.title}>
+                            Collaborative Notes made simple
+                        </h2>
+                        <CallToAction />
                     </div>
                     <div>
                         <Image
@@ -59,17 +65,17 @@ const Home: NextPage = () => {
                     </div>
                 </section>
             </div>
+
             <section>
                 {features.map((feature, idx) => (
                     <Feature key={idx} feature={feature} />
                 ))}
             </section>
+
             <section className={styles.try}>
                 <h1 className={styles.title}>Give it a try!</h1>
                 <div>
-                    <button className={styles.button} onClick={onNoteCreate}>
-                        I love purple color
-                    </button>
+                    <CallToAction />
                 </div>
             </section>
         </main>

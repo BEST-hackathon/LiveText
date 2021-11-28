@@ -1,5 +1,6 @@
 import type { NextPage } from 'next'
 import dynamic from 'next/dynamic'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 
 const EditorContainerNoSsr = dynamic(
@@ -13,7 +14,14 @@ const EditorPage: NextPage = () => {
 
     if (!noteId && typeof noteId !== 'string') return null
 
-    return <EditorContainerNoSsr noteId={noteId as string} />
+    return (
+        <>
+            <Head>
+                <title>LiveText: Editor</title>
+            </Head>
+            <EditorContainerNoSsr noteId={noteId as string} />
+        </>
+    )
 }
 
 export default EditorPage

@@ -23,6 +23,7 @@ const EditorContainer = ({ noteId }: { noteId: string }) => {
                     topRight: false,
                     right: true,
                 }}
+                default={{ width: '60%', x: 0, y: 0, height: '100vh' }}
                 minWidth="30%"
                 maxWidth="70%"
                 minHeight="100vh"
